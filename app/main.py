@@ -1,14 +1,14 @@
 import sys
 import json
+import os
 
 from common import convert_base64_to_dict
 from app import AppletApplication
 
 
 def main():
-    data = {}
-    with open('config.json', 'r') as f:
-        data = json.load(f)
+    token = os.environ.get('JMS-TOKEN')
+    data = convert_base64_to_dict(token)
     print(data)
     applet_app = AppletApplication(**data)
     applet_app.run()
