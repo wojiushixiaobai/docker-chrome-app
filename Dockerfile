@@ -18,5 +18,7 @@ COPY app /opt/app
 COPY etc/supervisor/app.conf /etc/supervisor/conf.d/app.conf
 RUN chmod +x /opt/app/start.sh
 
+HEALTHCHECK --interval=5s --timeout=5s CMD nc -z 127.0.0.1 5900 || exit 1
+
 USER seluser
 
