@@ -238,6 +238,9 @@ class AppletApplication(BaseApplication):
         self._chrome_options = default_chrome_driver_options()
         self._chrome_options.add_argument("--app={}".format(self.asset.address))
         self._chrome_options.add_argument("--user-data-dir={}".format(self._tmp_user_dir.name))
+        self._chrome_options.add_argument('--no-sandbox')
+        self._chrome_options.add_argument('--disable-gpu')
+        self._chrome_options.add_argument('--disable-dev-shm-usage')
         protocol_setting = self.platform.get_protocol_setting(self.protocol)
         if protocol_setting and protocol_setting.safe_mode:
             # 加载 extensions
@@ -245,14 +248,10 @@ class AppletApplication(BaseApplication):
             for extension_path in extension_paths:
                 self._chrome_options.add_argument('--load-extension={}'.format(extension_path))
 
-    @wrapper_progress_bar
     def run(self):
         service = Service()
-        #  driver 的 console 终端框不显示
-        # service.creationflags = CREATE_NO_WINDOW
         from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
-        # self.driver = webdriver.Chrome(options=self._chrome_options, service=service)
-        self.driver = webdriver.Remote("http://127.0.0.1:4444/wd/hub", DesiredCapabilities.CHROME)
+        self.driver = webdriver.Chrome(options=self._chrome_options, service=service)
         self.driver.implicitly_wait(10)
         if self.app.asset.address != "":
             ok = self.app.execute(self.driver)
