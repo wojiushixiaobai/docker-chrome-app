@@ -44,7 +44,7 @@ ARG CHROME_VERSION="google-chrome-stable"
 RUN --mount=type=cache,target=/var/cache/apt,sharing=locked,id=app-apt \
     --mount=type=cache,target=/var/lib/apt,sharing=locked,id=app-apt \
     wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add - \
-    && echo "deb http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google-chrome.list \
+    && echo "deb https://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google-chrome.list \
     && apt-get update -qqy \
     && apt-get -qqy install \
     ${CHROME_VERSION:-google-chrome-stable} \
