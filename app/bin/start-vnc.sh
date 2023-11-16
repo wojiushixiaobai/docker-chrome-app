@@ -1,5 +1,14 @@
 #!/usr/bin/env bash
 
+for i in $(seq 1 99); do
+    sleep 5
+    xdpyinfo -display :0 >/dev/null 2>&1
+    if [ $? -eq 0 ]; then
+        break
+    fi
+    echo "Waiting for Xvfb..."
+done
+
 mkdir -p "${HOME:-/root}/.vnc"
 
 if [ -z "${JMS_VNC_PASSWORD}" ]; then
