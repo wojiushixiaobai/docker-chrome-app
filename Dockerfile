@@ -4,11 +4,11 @@ ARG TARGETARCH
 ARG DEPENDENCIES="                    \
         ca-certificates               \
         dbus-x11                      \
-        fonts-wqy-zenhei              \
         fonts-wqy-microhei            \
         gnupg2                        \
         ibus                          \
         ibus-pinyin                   \
+        iso-codes                     \
         libffi-dev                    \
         libgbm-dev                    \
         libnss3                       \
@@ -54,11 +54,15 @@ RUN --mount=type=cache,target=/root/.cache \
 
 WORKDIR /opt
 
-ENV PATH=/opt/py3/bin:$PATH
+ENV PATH=/opt/py3/bin:$PATH \
+    GTK_IM_MODULE="ibus" \
+    XMODIFIERS="@im=ibus" \
+    QT_IM_MODULE="ibus"
 
 COPY app /opt/app
 COPY etc/supervisor/app.conf /etc/supervisor/conf.d/app.conf
 COPY entrypoint.sh /usr/local/bin/entrypoint.sh
+COPY .config/dconf /root/.config/dconf
 
 RUN LANG=C xdg-user-dirs-update --force
 
