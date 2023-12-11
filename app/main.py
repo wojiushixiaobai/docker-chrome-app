@@ -9,7 +9,6 @@ from app import AppletApplication
 def main():
     token = os.environ.get('JMS_TOKEN')
     data = convert_base64_to_dict(token)
-    print(data)
     applet_app = AppletApplication(**data)
     applet_app.run()
     applet_app.wait()

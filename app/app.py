@@ -240,6 +240,7 @@ class AppletApplication(BaseApplication):
         self._chrome_options.add_argument("--user-data-dir={}".format(self._tmp_user_dir.name))
         self._chrome_options.add_argument('--no-sandbox')
         self._chrome_options.add_argument('--disable-gpu')
+        self._chrome_options.add_argument('--gtk-version=4')
         self._chrome_options.add_argument('--disable-dev-shm-usage')
         protocol_setting = self.platform.get_protocol_setting(self.protocol)
         if protocol_setting and protocol_setting.safe_mode:
