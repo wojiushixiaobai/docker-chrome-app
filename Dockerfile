@@ -62,6 +62,7 @@ ENV PATH=/opt/py3/bin:$PATH \
 COPY app /opt/app
 COPY etc/supervisor/app.conf /etc/supervisor/conf.d/app.conf
 COPY entrypoint.sh /usr/local/bin/entrypoint.sh
+COPY .config/dconf /root/.config/dconf
 
 RUN LANG=C xdg-user-dirs-update --force
 
