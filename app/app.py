@@ -200,6 +200,8 @@ class WebAPP(object):
 
 def load_extensions():
     extensions_root = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'extensions')
+    if not os.path.exists(extensions_root):
+        return []
     extension_names = os.listdir(extensions_root)
     extension_paths = [os.path.join(extensions_root, name) for name in extension_names]
     return extension_paths
