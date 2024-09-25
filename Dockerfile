@@ -8,12 +8,13 @@ ARG DEPENDENCIES="                    \
         gnupg2                        \
         ibus                          \
         ibus-pinyin                   \
-        iso-codes                     \
         libffi-dev                    \
         libgbm-dev                    \
+        libgl1-mesa-glx               \
         libnss3                       \
         libssl-dev                    \
         locales                       \
+        mesa-utils                    \
         netcat-openbsd                \
         pulseaudio                    \
         supervisor                    \
@@ -26,8 +27,8 @@ ARG DEPENDENCIES="                    \
 
 ARG APT_MIRROR=http://mirrors.ustc.edu.cn
 
-RUN --mount=type=cache,target=/var/cache/apt,sharing=locked,id=app-apt \
-    --mount=type=cache,target=/var/lib/apt,sharing=locked,id=app-apt \
+RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
+    --mount=type=cache,target=/var/lib/apt,sharing=locked \
     sed -i "s@http://.*.debian.org@${APT_MIRROR}@g" /etc/apt/sources.list \
     && rm -f /etc/apt/apt.conf.d/docker-clean \
     && ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime \
@@ -40,11 +41,11 @@ RUN --mount=type=cache,target=/var/cache/apt,sharing=locked,id=app-apt \
     && chmod +x /dev/shm \
     && mkdir -p /tmp/.X11-unix && chmod 1777 /tmp/.X11-unix
 
-RUN --mount=type=cache,target=/var/cache/apt,sharing=locked,id=app-apt \
-    --mount=type=cache,target=/var/lib/apt,sharing=locked,id=app-apt \
-    apt-get update \
-    && apt install -y chromium chromium-driver \
-    && rm -rf /var/lib/apt/lists/* /var/cache/apt/*
+RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
+    --mount=type=cache,target=/var/lib/apt,sharing=locked \
+    set -ex \
+    && apt-get update \
+    && apt install -y --no-install-recommends chromium chromium-driver
 
 RUN --mount=type=cache,target=/root/.cache \
     set -ex \
